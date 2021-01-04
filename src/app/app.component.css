@@ -1,0 +1,19 @@
+/* * {
+    box-sizing: border-box;
+} */
+
+.app-root-container {
+    border: 3px solid black;
+}
+
+.title {
+    background-color: #8e7cc3;
+    color: #ddd7ed;
+    padding: 10px;
+    border-bottom: 3px solid black;
+}
+
+app-list {
+    background-color: #d9d2e9;
+    padding: 25px;
+}

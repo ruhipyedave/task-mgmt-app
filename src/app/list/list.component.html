@@ -1,0 +1,83 @@
+<!-- <div class="row" id="list-container"> -->
+    <div class="col-10">
+        <div class="row" cdkDropList (cdkDropListDropped)="dragAndDropList($event)">
+            <div class="col-3 each-list" *ngFor="let list of lists; index as i;"
+             cdkDrag>
+                <div>
+                    <span class="cross-icon" (click)="showDeleteListConfimBox(i)"> &#10006;</span>
+                </div>
+                <div class="list-name">
+                    <h4 (click)="onClickOfListName(i)" 
+                    *ngIf="!list.editName">
+                        {{ list.name }}
+                    </h4>
+                    <div *ngIf="list.editName">
+                        <input #listName="ngModel" type="text" [(ngModel)]="list.name" required 
+                        [ngModelOptions]="{standalone: true}" (blur)="onBlurOfListName(i)">
+                        <div [hidden]="listName.valid || listName.untouched" class="alert alert-danger">
+                            <span>List name is mandatory.</span>
+                        </div>
+                        <div [hidden]="!list.dupFound">
+                            <span>List name already exists.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-container" cdkDropList id="{{list.name}}" [cdkDropListData]="list.cards"
+                [cdkDropListConnectedTo]="connectedTo" (cdkDropListDropped)="dragAndDropCard($event)">
+                    <div class="blankHeight"></div>
+                    <div *ngFor="let card of list.cards; index as j;" class="card-content" cdkDrag>
+                        <div>
+                            <span class="cross-icon" (click)="showDeleteCardConfimBox(i, j)">
+                                &#10006;
+                            </span>
+                        </div>
+                        <div (click)="onClickOfCardName(i, j)">
+                            {{ card }}
+                        </div>
+                        <div class="blankHeight"></div>
+                        <div *ngIf="list.editCard[j]">
+                            <input #cardNameEdit="ngModel" type="text" [(ngModel)]="list.cards[j]" required 
+                            [ngModelOptions]="{standalone: true}" (blur)="onBlurOfCardName(i, j)">
+                            <div [hidden]="cardNameEdit.valid || cardNameEdit.untouched" 
+                            class="alert alert-danger">
+                                <span>Card name is mandatory.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="list.add">
+                    <form class="">  
+                        <div class="form-group">  
+                            <input #cardName="ngModel" [(ngModel)]="list.cardContent" required 
+                            [ngModelOptions]="{standalone: true}">
+                            <button type="submit" class="btn btn-success ml-2" (click)="addCardToList(i)"
+                                [disabled]="cardName.invalid">+</button> 
+                                <button class="btn btn-danger" (click)="cancelAddOperation(i)">
+                                x</button>
+                            <div [hidden]="cardName.valid || cardName.untouched" class="alert alert-danger">
+                                <span>Card name is mandatory.</span> 
+                            </div>
+                        </div>   
+                        <!-- <div class="button-container">
+                            
+                            <button class="btn btn-danger" (click)="cancelAddOperation(i)">
+                                Cancel</button>  
+                        </div> -->
+                    </form>  
+                </div>
+                <div *ngIf="!list.add">
+                    <span class="add-link"
+                        (click)="showAddCard(i)"> 
+                        <b>+ Add a card</b> 
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <span class="add-link"
+            (click)="addNewList()" data-toggle="modal" data-target="#myModal"> 
+            <b>+ Add another list</b> 
+        </span>
+    </div>
+<!-- </div> -->
