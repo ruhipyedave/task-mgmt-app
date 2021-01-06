@@ -12,7 +12,6 @@ import { debug } from 'console';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-
   	constructor(private local: LocalStorageService) { }
   	lists: List[] = [
 	 	new List("To Do", ["Pay Electricity Bill", "Make Grocery List"]),
@@ -24,7 +23,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     let locallyStoredList = this.local.get("lists");
-    if (!locallyStoredList){
+    if (!locallyStoredList || !locallyStoredList.length){
       this.local.set("lists", this.lists, 1, 'y');
     } else {
       this.lists = locallyStoredList;
@@ -39,6 +38,10 @@ export class ListComponent implements OnInit {
 	this.local.set("lists", this.lists, 1, 'y');
   }
 
+  clearListFromLocalStorage() {
+    this.local.remove("lists");
+  }
+
   addCardToList = function (index) {
     if (this.lists[index].cardContent === "") {
 		return;
@@ -50,14 +53,14 @@ export class ListComponent implements OnInit {
   }
 
   cancelAddOperation = function (index) {
-	this.lists[index].cardContent = "";
-	this.lists[index].add = false;
-	this.updateLocallyStoredList();
+    this.lists[index].cardContent = "";
+    this.lists[index].add = false;
+    this.updateLocallyStoredList();
   }
 
   showAddCard = function (index) {
-	this.lists[index].add = true;
-	this.updateLocallyStoredList();
+    this.lists[index].add = true;
+    this.updateLocallyStoredList();
   }
 
   addNewList = function () {
@@ -65,38 +68,8 @@ export class ListComponent implements OnInit {
   }
 
   showDeleteListConfimBox(index) {
-	  this.handleWarningAlert(index);
-  }
-
-  deleteList = function (index) {
-	  this.lists.splice(index, 1);
-	  this.updateLocallyStoredList();
-  }
-
-  onClickOfListName = function (index) {
-	  this.lists[index].editName = true;
-  }
-
-  onBlurOfListName = function (index) {
-	  debugger;
-	if (this.lists[index].name === "") {
-		return;
-	}
-	// check if list name exists 
-	this.lists[index].dupFound = this.lists.find((element, i) => {
-		return i !== index && element.name == this.lists[index].name
-	});
-
-	if(this.lists[index].dupFound) {
-		return;
-	}
-
-	this.lists[index].editName = false;
-}
-
-  // Custom Buttons
-  handleWarningAlert(index) {
-    Swal.fire({
+	  // Custom Buttons
+    return Swal.fire({
       title: 'Are you sure you want to delete this list?',
       text: 'You will not be able to recover it later!',
       icon: 'warning',
@@ -110,33 +83,57 @@ export class ListComponent implements OnInit {
         console.log('Clicked No, File is safe!');
       }
     })
+  }
 
+  deleteList = function (index) {
+	  this.lists.splice(index, 1);
+	  this.updateLocallyStoredList();
+  }
+
+  onClickOfListName = function (index) {
+	  this.lists[index].editName = true;
+  }
+
+  onBlurOfListName = function (index) {
+    if (this.lists[index].name === "") {
+      return;
+    }
+    // check if list name exists 
+    this.lists[index].dupFound = this.lists.find((element, i) => {
+      return i !== index && element.name == this.lists[index].name
+    });
+
+    if(this.lists[index].dupFound) {
+      return;
+    }
+
+    this.lists[index].editName = false;
   }
 
   showDeleteCardConfimBox = function (listIndex, cardIndex) {
-	Swal.fire({
-		title: 'Are you sure you want to delete this card?',
-		text: 'You will not be able to recover it later!',
-		icon: 'warning',
-		showCancelButton: true,
-		confirmButtonText: 'Yes, delete it!',
-		cancelButtonText: 'No, keep it',
-	  }).then((result) => {
-		if (result.isConfirmed) {
-		  this.deleteCardFromList(listIndex, cardIndex);
-		} else if (result.isDismissed) {
-		  console.log('Clicked No, File is safe!');
-		}
-	  })
+    return Swal.fire({
+      title: 'Are you sure you want to delete this card?',
+      text: 'You will not be able to recover it later!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+      }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteCardFromList(listIndex, cardIndex);
+      } else if (result.isDismissed) {
+        console.log('Clicked No, File is safe!');
+      }
+    })
   }
   
   deleteCardFromList = function (index, cardIndex) {
-	this.lists[index].cards.splice(cardIndex, 1);
-	this.updateLocallyStoredList();
+    this.lists[index].cards.splice(cardIndex, 1);
+    this.updateLocallyStoredList();
 	}
 
- dragAndDropList(event: CdkDragDrop<string[]>) {
-	moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
+  dragAndDropList(event: CdkDragDrop<string[]>) {
+	  moveItemInArray(this.lists, event.previousIndex, event.currentIndex);
 	}
   
 	dragAndDropCard(event: CdkDragDrop<string[]>) {
@@ -152,18 +149,10 @@ export class ListComponent implements OnInit {
   }
 
   onClickOfCardName = function (listIndex, cardIndex) {
-	  debugger;
 	  if (this.lists[listIndex].editCardInProgress == true) {
 		  return;
 	  }
 	  this.lists[listIndex].editCardInProgress = true;
 	  this.lists[listIndex].editCard[cardIndex] = true;
-}
-  onBlurOfCardName = function (listIndex, cardIndex) {
-	if (this.lists[listIndex].cards[cardIndex] === "") {
-		return;
-	}
-	this.lists[listIndex].editCardInProgress = false; 
-	this.lists[listIndex].editCard[cardIndex] = false;
   }
 }

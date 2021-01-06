@@ -1,9 +1,20 @@
-<div class="container-fluid app-root-container">  
+<div class="container-fluid app-root-container" [ngClass]="theme">  
   <div class="row title">
-    <div class="col">
-      <h3>Sample Application</h3>
+    <div class="col-9">
+      <h3>{{ title }}</h3>
+    </div>
+    <div class="col-3">
+      <form class="">  
+        <div class="form-group">  
+            <label>Select theme</label>
+            <select class="form-control" #selectTheme="ngModel" [(ngModel)]="theme" required 
+            [ngModelOptions]="{standalone: true}">
+              <option value="purple">Purple</option>
+              <option value="pink">Pink</option>
+            </select>
+        </div>  
+      </form>  
     </div>
   </div>
   <app-list class="row"></app-list>
-  <app-card-modal class="modal" id="cardModal"></app-card-modal>
 </div>

@@ -7,11 +7,12 @@ export class List {
     cardContent: string;
     editCardInProgress: boolean;
     editCard: any; // object with key as number and value as boolean 
-
+    editName: boolean;
     constructor(name: string, cards: string[] = []) {
         this.name = name;
         this.cards = cards;
         this.add = false;
+        this.editName = false;
         this.cardContent = "";
         this.editCardInProgress = false;
         this.editCard = {};

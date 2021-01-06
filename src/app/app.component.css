@@ -3,17 +3,17 @@
 } */
 
 .app-root-container {
-    border: 3px solid black;
+    border: 3px solid var(--border-color);
 }
 
 .title {
-    background-color: #8e7cc3;
-    color: #ddd7ed;
+    background-color: var(--toolbar-bg-color);
+    color: var(--toolbar-text-color);
     padding: 10px;
-    border-bottom: 3px solid black;
+    border-bottom: 3px solid var(--border-color);
 }
 
 app-list {
-    background-color: #d9d2e9;
+    background-color: var(--container-bg-color);
     padding: 25px;
 }

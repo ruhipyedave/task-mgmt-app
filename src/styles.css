@@ -1,1 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --toolbar-bg-color: #8e7cc3;
+    --toolbar-text-color: #ffffff;
+    --container-bg-color: #e2dcf1;
+    --list-bg-color: #ede9f7;
+    --border-color: black;
+    --text-color: #1976d2;
+    --link-color: blue;
+    --card-bg-color: white;
+  }
+
+
+  .purple {
+    --toolbar-bg-color: #8e7cc3;
+    --toolbar-text-color: #ffffff;
+    --container-bg-color: #e2dcf1;
+    --list-bg-color: #d9d2e9;
+    --border-color: black;
+    --text-color: #1976d2;
+    --link-color: blue;
+    --card-bg-color: white;
+  }
+
+  .pink {
+    --toolbar-bg-color: #f50469;
+    --toolbar-text-color: #ffffff;
+    --container-bg-color: #f6dce6;
+    --list-bg-color: #f3cedc; 
+    --border-color: rgb(100, 6, 37);
+    --text-color: #f387a7;
+    --link-color: blue;
+    --card-bg-color: white;
+  }
